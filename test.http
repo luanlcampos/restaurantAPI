@@ -1,0 +1,4 @@
+#GET http://localhost:8080/api/restaurants?page=1&perPage=5&borough=Bronx
+
+
+GET http://localhost:8080/api/restaurants/5eb3d668b31de5d588f42961
