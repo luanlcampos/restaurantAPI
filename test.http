@@ -1,4 +1,48 @@
+#TEST: Display restaurants by page and borough
 #GET http://localhost:8080/api/restaurants?page=1&perPage=5&borough=Bronx
 
 
+
+#TEST: Get restaurant by ID
 GET http://localhost:8080/api/restaurants/5eb3d668b31de5d588f42961
+
+
+
+#TEST: Add a new restaurant
+
+# POST http://localhost:8080/api/restaurants
+# Content-Type: application/json
+
+# {
+#         "address": {
+#             "coord": [43.757781395479874, -79.40500633525815],
+#             "building": "105",
+#             "street": "Harrison Garden Blvd",
+#             "zipcode": "M2N0C3"
+#         },
+#         "borough": "North York",
+#         "cuisine": "Brazilian",
+#         "grades": [
+#         {
+#         "date": "2014-06-21T00:00:00.000Z",
+#         "grade": "A",
+#         "score": 5
+#         }
+#         ],
+#         "name": "Luna Br",
+#         "restaurant_id": 12345678
+# }
+
+#TEST: Update a restaurant
+# PUT http://localhost:8080/api/restaurants/600b1d6fb9aae9465325481c
+# Content-Type: application/json
+
+# {
+#         "borough": "",
+#         "name": ""
+# }
+
+
+
+#TEST: Delete a restaurant
+#DELETE http://localhost:8080/api/restaurants/6008b4b10fe0db143ac5d3c

@@ -54,9 +54,7 @@ module.exports = class RestaurantDB{
         
         return Promise.reject(new Error('page and perPage query parameters must be present'));
     }
-    getAllRestaurants2() {
-       return this.Restaurant.find({})
-    }
+
     getRestaurantById(id){
         return this.Restaurant.findOne({_id: id}).exec();
     }
