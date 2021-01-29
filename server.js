@@ -11,8 +11,12 @@ const bodyParser = require("body-parser");
 //validate post/put requests data
 const { body, validationResult, checkSchema } = require("express-validator");
 const RestaurantDB = require("./modules/restaurantDB.js");
+// Load the dotenv module and have it read your .env file
+require('dotenv').config()
+// Obtain the value of the MONGODB_CONN_STRING from the environment
+const { MONGODB_CONN_STRING } = process.env
 const db = new RestaurantDB(
-  "mongodb+srv://web422:web422a1@cluster0.bn3vq.mongodb.net/sample_restaurants?retryWrites=true&w=majority"
+  MONGODB_CONN_STRING
 );
 
 const cors = require("cors");
