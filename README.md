@@ -5,9 +5,9 @@
 ## Get All Restaurants Route
 
 ```http
-GET http://localhost:8080/api/restaurants?page=1&perPage=5&borough=Bronx
+GET https://dry-lowlands-75857.herokuapp.com/api/restaurants?page=1&perPage=5&borough=Bronx
 ```
-https://dry-lowlands-75857.herokuapp.com/api/restaurants?page=1&perPage=5&borough=Bronx
+
 
 ## Get Restaurant By ID
 ```http
@@ -20,7 +20,7 @@ https://dry-lowlands-75857.herokuapp.com/api/restaurants/<restaurant_id>
 Using some API tester platform, run the following command:
 
 ```http
-POST http://localhost:8080/api/restaurants
+POST https://dry-lowlands-75857.herokuapp.com/api/restaurants
 Content-Type: application/json
 
 {
@@ -51,7 +51,7 @@ Content-Type: application/json
 Using some API tester platform, run the following command:
 
 ``` http
-PUT http://localhost:8080/api/restaurants/600b1d6fb9aae9465325481c
+PUT https://dry-lowlands-75857.herokuapp.com/api/restaurants/600b1d6fb9aae9465325481c
 Content-Type: application/json
 
 {
@@ -67,7 +67,7 @@ Content-Type: application/json
 Using some API tester platform, run the following command:
 
 ``` http
-DELETE http://localhost:8080/api/restaurants/<_id>
+DELETE https://dry-lowlands-75857.herokuapp.com/api/restaurants/<_id>
 ```
 
 
