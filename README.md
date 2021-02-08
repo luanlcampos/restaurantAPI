@@ -11,9 +11,9 @@ GET https://dry-lowlands-75857.herokuapp.com/api/restaurants?page=1&perPage=5&bo
 
 ## Get Restaurant By ID
 ```http
-GET http://localhost:8080/api/restaurants/<restaurant_id>
-```
+GET 
 https://dry-lowlands-75857.herokuapp.com/api/restaurants/<restaurant_id>
+```
 
 ## Add A New Restaurant Through POST Request
 
