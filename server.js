@@ -39,13 +39,16 @@ app.get("/api/restaurants", (req, res) => {
   //Get 3 parameters from the query and pass it to the getAllRestaurants Functions
   //Parameters example: /api/restaurants?page=1&perPage=5&borough=Bronx
   //page, perPage and borough
-  db.getAllRestaurants(req.query.page, req.query.perPage, req.query.borough)
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      res.status(500).json({ message: err });
-    });
+  const { page, perPage, borough } = req.query;
+  if (borough.length > 3 && page > 0 && perPage > 3){
+    db.getAllRestaurants(req.query.page, req.query.perPage, req.query.borough)
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => {
+        res.status(500).json({ message: err });
+      });
+  }
 });
 
 //Get restaurant by id

@@ -2,70 +2,82 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const restaurantSchema = new Schema({
-    address: {
-        building: String,
-        coord: [Number],
-        street: String,
-        zipcode: String
+  address: {
+    building: String,
+    coord: [Number],
+    street: String,
+    zipcode: String,
+  },
+  borough: String,
+  cuisine: String,
+  grades: [
+    {
+      date: Date,
+      grade: String,
+      score: Number,
     },
-    borough: String,
-    cuisine: String,
-    grades: [{
-        date: Date,
-        grade: String,
-        score: Number
-    }],
-    name: String,
-    restaurant_id: String
+  ],
+  name: String,
+  restaurant_id: String,
 });
 
-module.exports = class RestaurantDB{
-    constructor(connectionString){
-        this.connectionString = connectionString;
-        this.Restaurant = null; // no "Restaurant" object until "initialize" is complete
+module.exports = class RestaurantDB {
+  constructor(connectionString) {
+    this.connectionString = connectionString;
+    this.Restaurant = null; // no "Restaurant" object until "initialize" is complete
+  }
+
+  initialize() {
+    return new Promise((resolve, reject) => {
+      let db = mongoose.createConnection(this.connectionString, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+
+      db.on("error", () => {
+        reject();
+      });
+      db.once("open", () => {
+        this.Restaurant = db.model("restaurants", restaurantSchema);
+        resolve();
+      });
+    });
+  }
+
+  async addNewRestaurant(data) {
+    let newRestaurant = new this.Restaurant(data);
+    await newRestaurant.save();
+    return `new restaurant: ${newRestaurant._id} successfully added`;
+  }
+
+  getAllRestaurants(page, perPage, borough) {
+    borough = borough.charAt(0).toUpperCase() + borough.slice(1).toLowerCase();
+    let findBy = borough ? { borough } : {};
+
+    if (+page && +perPage) {
+      return this.Restaurant.find(findBy)
+        .sort({ restaurant_id: +1 })
+        .skip(page * +perPage)
+        .limit(+perPage)
+        .exec();
     }
 
-    initialize(){
-        return new Promise((resolve,reject)=>{
-           let db = mongoose.createConnection(this.connectionString,{ useNewUrlParser: true,useUnifiedTopology: true });
-           
-            db.on('error', ()=>{
-                reject();
-            });
-            db.once('open', ()=>{
-                this.Restaurant = db.model("restaurants", restaurantSchema);
-                resolve();
-            });
-        });
-    }
+    return Promise.reject(
+      new Error("page and perPage query parameters must be present")
+    );
+  }
 
-    async addNewRestaurant(data){
-        let newRestaurant = new this.Restaurant(data);
-        await newRestaurant.save();
-        return `new restaurant: ${newRestaurant._id} successfully added`
-    }
-    
-    getAllRestaurants(page, perPage, borough){ 
-        let findBy = borough ? { borough } : {};
+  getRestaurantById(id) {
+    return this.Restaurant.findOne({ _id: id }).exec();
+  }
 
-        if(+page && +perPage){
-            return this.Restaurant.find(findBy).sort({restaurant_id: +1}).skip(page * +perPage).limit(+perPage).exec();
-        }
-        
-        return Promise.reject(new Error('page and perPage query parameters must be present'));
-    }
+  async updateRestaurantById(data, id) {
+    await this.Restaurant.updateOne({ _id: id }, { $set: data }).exec();
+    return `restaurant ${id} successfully updated`;
+  }
 
-    getRestaurantById(id){
-        return this.Restaurant.findOne({_id: id}).exec();
-    }
-
-    async updateRestaurantById(data, id){
-        await this.Restaurant.updateOne({_id: id}, { $set: data }).exec();
-        return `restaurant ${id} successfully updated`;
-    }
-
-    async deleteRestaurantById(id){
-        await this.Restaurant.deleteOne({_id: id}).exec();
-        return `restaurant ${id} successfully deleted`;
-    }
-}
+  async deleteRestaurantById(id) {
+    await this.Restaurant.deleteOne({ _id: id }).exec();
+    return `restaurant ${id} successfully deleted`;
+  }
+};
