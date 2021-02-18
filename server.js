@@ -40,7 +40,7 @@ app.get("/api/restaurants", (req, res) => {
   //Parameters example: /api/restaurants?page=1&perPage=5&borough=Bronx
   //page, perPage and borough
   const { page, perPage, borough } = req.query;
-  if (borough.length > 3 && page > 0 && perPage > 3){
+  if ( page > 0 && perPage > 3){
     db.getAllRestaurants(req.query.page, req.query.perPage, req.query.borough)
       .then((data) => {
         res.json(data);
