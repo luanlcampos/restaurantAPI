@@ -51,7 +51,7 @@ module.exports = class RestaurantDB {
   }
 
   getAllRestaurants(page, perPage, borough) {
-    borough = borough.charAt(0).toUpperCase() + borough.slice(1).toLowerCase();
+    borough ? borough.charAt(0).toUpperCase() + borough.slice(1).toLowerCase() : {};
     let findBy = borough ? { borough } : {};
 
     if (+page && +perPage) {
